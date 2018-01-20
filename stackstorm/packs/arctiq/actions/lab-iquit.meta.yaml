@@ -1,0 +1,19 @@
+---
+# Action definition metadata
+name: "lab-iquit"
+description: "Reset web servers after employee tanks them"
+pack: "arctiq"
+
+# `runner_type` has value `action-chain` to identify that action is an ActionChain.
+runner_type: "action-chain"
+
+# `entry_point` path to the ActionChain definition file, relative to the pack's action directory.
+entry_point: "chains/lab-iquit.yaml"
+
+enabled: true
+
+notify:
+  on-complete:
+    message: "@channel : So, if you aren't aware, someone broke the website. Reconfiguration is happening and such. More updates to come."
+    routes:
+      - "slack"

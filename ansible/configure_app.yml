@@ -1,0 +1,15 @@
+---
+- name: Create the web app
+  hosts: webservers
+  roles:
+    - webservers
+- name: Create the F5 web app
+  hosts: f5
+  connection: local
+  vars:
+    vip: 192.168.100.100
+    web_content_search_string: "dashai"
+    event_handler_service: "st2nagios"
+  roles:
+    - f5-webapp
+#   tasks:

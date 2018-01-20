@@ -1,0 +1,32 @@
+- name: Reset Lab to Base Settings
+  hosts: network
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Reset Cisco to Base Config
+      ios_config:
+        src: base/{{ inventory_hostname }}_config.base
+        save_when: modified
+        provider: "{{ dev_provider }}"
+      when: inventory_hostname in groups['cisco_ios']
+    - name: Reset Juniper to Base Config
+      junos_config:
+        src: base/{{ inventory_hostname }}_config.base
+        update: override
+        provider: "{{ dev_provider }}"
+      when: inventory_hostname in groups['junos']
+    - name: Reset F5 to Default
+      bigip_config:
+        reset: yes
+        save: yes
+        server: "{{ ansible_host }}"
+        validate_certs: no
+      when: inventory_hostname in groups['f5']
+    - name: Reset F5 to Base Config
+      bigip_config:
+        save: yes
+        server: "{{ ansible_host }}"
+        validate_certs: no
+        verify: false
+        merge_content: "{{ lookup('file', 'base/F5_ADC_config.base') }}"
+      when: inventory_hostname in groups['f5']

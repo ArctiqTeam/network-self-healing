@@ -1,0 +1,12 @@
+- name: Deploy I Quit Website
+  hosts: webservers
+  gather_facts: no
+  tasks:
+    - name: Redeploy files
+      copy:
+        src: "files/{{ item }}"
+        dest: "/usr/share/nginx/html/{{ item }}"
+      with_items:
+        - "css/main.css"
+        - "index.html"
+        - "car_red.jpg"

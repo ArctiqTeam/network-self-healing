@@ -1,0 +1,24 @@
+---
+# tasks file for junos
+- name: Configure Interfaces
+  junos_config:
+    provider: "{{ dev_provider }}"
+    confirm_commit: yes
+    lines:
+      - "set interfaces {{ item.name }} description \"{{ item.description | default('interface') }}\" unit 0 family inet address {{ item.ip_address }}"
+  with_items: "{{ main_interfaces}}"
+
+- name: Configure OSPF
+  junos_config:
+    provider: "{{ dev_provider }}"
+    confirm_commit: yes
+    lines:
+      - "set protocols ospf area 0 interface {{ item.name }}.0 metric {{ item.metric | default('1') }}"
+  with_items: "{{ main_interfaces }}"
+
+- name: Bring Up Interfaces
+  junos_interface:
+    name: "{{ item.name }}"
+    state: "up"
+    enabled: true
+  with_items: "{{ main_interfaces }}"

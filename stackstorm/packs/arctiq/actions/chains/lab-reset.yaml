@@ -1,0 +1,23 @@
+---
+    chain:
+        -
+            name: "c1"
+            ref: core.local
+            parameters:
+              cmd: 'curl -H "Content-Type: application/json" -u admin:<PASSWORD> -X POST https://10.100.100.100:443/api/v2/workflow_job_templates/17/launch/ --insecure'
+            on-success: "c2"
+            on-failure: "c4"
+        -
+            name: "c2"
+            ref: slack.post_message
+            parameters:
+              message: 'Received alert and sending playbookz in action!'
+              channel: '#netops'
+            on-failure: "c4"
+        -
+            name: "c4"
+            ref: slack.post_message
+            parameters:
+              message: 'Danger Will Robinson! Danger! We had a systemic failure!'
+              channel: '#thedump'
+    default: "c1"

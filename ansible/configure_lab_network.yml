@@ -1,0 +1,9 @@
+- name: Configure the Lab Network
+  hosts: network
+  connection: local
+  gather_facts: no
+  roles:
+    - { role: 'cisco_ios', when: 'inventory_hostname in groups["cisco_ios"]' } 
+    - { role: 'junos', when: 'inventory_hostname in groups["junos"]' }
+    - { role: 'f5', when: 'inventory_hostname in groups["f5"]' }
+

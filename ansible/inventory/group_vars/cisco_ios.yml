@@ -1,0 +1,4 @@
+template_name: cisco_ios.j2
+dev_provider:
+  host: "{{ ansible_host }}"
+  timeout: 300

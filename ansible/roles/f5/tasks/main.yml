@@ -1,0 +1,42 @@
+---
+# tasks file for f5
+  - name: Create VLAN add to Interface
+    bigip_vlan:
+        name: "{{ item.name }}"
+        server: "{{ ansible_host }}"
+        validate_certs: "no"
+        untagged_interfaces:
+          - "{{ item.interface }}"
+    with_items: 
+      - "{{ vlans }}"
+
+  - name: Write out the Zebos config
+    template:
+      src: zebos.conf.j2
+      dest: /config/zebos/rd0/ZebOS.conf
+    remote_user: "ansible"
+    delegate_to: "{{ ansible_host }}"
+    notify: restart zebos
+
+  - name: Configure Route Domain
+    bigip_routedomain:
+        validate_certs: "no"
+        server: "{{ ansible_host }}"
+        id: 0
+        state: "present"
+        routing_protocol: 
+          - "OSPFv2"
+
+  - name: Create Self IP with a Route Domain
+    bigip_selfip:
+        server: "{{ ansible_host }}"
+        validate_certs: "no"
+        name: "{{ item.self_ip_name }}"
+        address: "{{ item.self_ip | ipaddr('address') }}"
+        netmask: "{{ item.self_ip | ipaddr('netmask') }}"
+        vlan: "{{ item.name }}"
+        route_domain: "0"
+        allow_service:
+          - all
+    with_items:
+      - "{{ vlans }}"

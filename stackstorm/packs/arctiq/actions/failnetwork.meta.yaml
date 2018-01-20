@@ -1,0 +1,19 @@
+---
+# Action definition metadata
+name: "failnetwork"
+description: "Fail Network"
+pack: "arctiq"
+
+# `runner_type` has value `action-chain` to identify that action is an ActionChain.
+runner_type: "action-chain"
+
+# `entry_point` path to the ActionChain definition file, relative to the pack's action directory.
+entry_point: "chains/failnetwork.yaml"
+
+enabled: true
+
+notify:
+  on-complete:
+    message: "@channel : Causing Failures!!!"
+    routes:
+      - "slack"

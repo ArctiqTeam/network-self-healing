@@ -1,0 +1,6 @@
+---
+# handlers file for f5
+- name: restart zebos
+  shell: bigstart restart tmrouted
+  remote_user: "ansible"
+  delegate_to: "{{ ansible_host }}"

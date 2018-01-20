@@ -1,0 +1,28 @@
+---
+    chain:
+        -
+            name: "c1"
+            ref: "core.local"
+            parameters:
+              cmd: "curl -H \"Content-Type: application/json\" -u admin:'<PASSWORD>' -X POST -d '{\"extra_vars\": \"{\\\"api_hostname\\\": \\\"api-test\\\"}\"}' https://10.100.100.100:443/api/v2/job_templates/13/launch/ --insecure"
+            on-success: "c2"
+            on-failure: "c4"
+        -
+            name: "c2"
+            ref: "core.local"
+            parameters:
+                cmd: "echo \"c2: parent exec is {{action_context.parent.execution_id}}.\""
+            on-success: "c3"
+            on-failure: "c4"
+        -
+            name: "c3"
+            ref: ""
+            parameters:
+                cmd: "echo c3"
+            on-failure: "c4"
+        -
+            name: "c4"
+            ref: "core.local"
+            parameters:
+                cmd: "echo fail c4"
+    default: "c1"

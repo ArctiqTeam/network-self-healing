@@ -1,0 +1,21 @@
+- name: Backup Configs
+  hosts: all
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Backup Cisco
+      ios_config:
+        backup: yes
+        provider:
+          host: "{{ ansible_host }}"
+          timeout: 300
+          port: 22
+      when: inventory_hostname in groups['cisco_ios']
+    - name: Backup Juniper
+      junos_config:
+        backup: yes
+        provider:
+          host: "{{ ansible_host }}"
+          timeout: 300
+          port: 22
+      when: inventory_hostname in groups['junos']

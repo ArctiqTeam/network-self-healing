@@ -1,0 +1,36 @@
+---
+# tasks file for webservers
+- name: Change hostname
+  hostname:
+    name: "{{ inventory_hostname }}"
+- name: Change /etc/hostname
+  lineinfile:
+    dest: /etc/sysconfig/network
+    regexp: "^HOSTNAME"
+    line: "HOSTNAME={{inventory_hostname}}"
+- name: Enable EPEL
+  yum:
+    name: epel-release
+    state: present
+- name: Install Nginx and Git
+  yum:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - "nginx"
+    - "git"
+- name: Ensure Webserver is started
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+- name: Clear out old repo
+  file:
+    path: /var/tmp/dashai
+    state: absent
+- name: Grab source repo
+  git:
+    repo: https://github.com/dashai/dashai.github.io.git
+    dest: /var/tmp/dashai
+- name: Move web root
+  shell: 'cp -axf /var/tmp/dashai/* /usr/share/nginx/html/'

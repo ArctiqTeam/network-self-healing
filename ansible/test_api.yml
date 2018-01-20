@@ -1,0 +1,7 @@
+---
+- name: Test API Payload with Host
+  hosts: localhost
+  connection: local
+  tasks:
+    - debug: 
+        msg: "Received {{ api_hostname }} from API payload"

@@ -1,0 +1,20 @@
+[cisco_ios]
+CiscoR0 ansible_host=10.100.100.10
+
+[junos]
+JuniperR1 ansible_host=10.100.100.20
+
+[f5]
+F5_ADC ansible_host=10.100.100.30
+
+[webservers]
+webserver1 ansible_host=192.168.201.10
+webserver2 ansible_host=192.168.202.10
+
+[monitor]
+monitor1 ansible_host=10.100.100.102
+
+[network:children]
+cisco_ios
+junos
+f5

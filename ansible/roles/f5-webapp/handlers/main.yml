@@ -1,0 +1,8 @@
+---
+# handlers file for f5-webapp
+- name: restart nagios
+  shell: '{{ item }}'
+  delegate_to: monitor1
+  with_items:
+    - "docker stop nagios4"
+    - "docker start nagios4"

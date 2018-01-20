@@ -1,0 +1,21 @@
+- name: Fail the Network
+  hosts: network
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Bring Down Cisco Interfaces
+      ios_interface:
+        name: "{{ item.name }}"
+        state: "down"
+        enabled: false
+      with_items:
+        - "{{ main_interfaces }}"
+      when: inventory_hostname in groups['cisco_ios']
+
+    - name: Bring Down Juniper Interfaces
+      junos_interface:
+        name: "{{ item.name }}"
+        state: "down"
+        enabled: false
+      with_items: "{{ main_interfaces }}"
+      when: inventory_hostname in groups['junos']

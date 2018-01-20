@@ -1,0 +1,21 @@
+- name: Fix the Network
+  hosts: network
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Bring UP Cisco Interfaces
+      ios_interface:
+        name: "{{ item.name }}"
+        state: "up"
+        enabled: true
+      with_items:
+        - "{{ main_interfaces }}"
+      when: inventory_hostname in groups['cisco_ios']
+
+    - name: Bring UP Juniper Interfaces
+      junos_interface:
+        name: "{{ item.name }}"
+        state: "up"
+        enabled: true
+      with_items: "{{ main_interfaces }}"
+      when: inventory_hostname in groups['junos']

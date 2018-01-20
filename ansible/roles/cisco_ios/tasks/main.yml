@@ -1,0 +1,32 @@
+---
+# tasks file for cisco_ios
+- name: Configure Interfaces
+  ios_config:
+    provider: "{{ dev_provider }}"
+    lines:
+      - "ip address {{ item.ip_address | ipaddr('address') }} {{ item.ip_address | ipaddr('netmask') }}"
+      - "ip ospf cost {{ item.metric | default('1') }}"
+      - "description {{ item.description | default('interface') }}"
+    parents: "interface {{ item.name }}"
+  with_items: "{{ main_interfaces }}"
+  notify: save config
+
+- name: Configure OSPF
+  ios_config:
+    provider: "{{ dev_provider }}"
+    lines:
+      - "network {{ item.ip_address | ipaddr('network') }} {{ item.ip_address | ipaddr('hostmask') }} area 0"
+    parents:
+      - "router ospf 10"
+      - "router-id {{ mgmt_interface.ip_address | ipaddr('address') }}"
+  with_items: "{{ main_interfaces }}"
+  notify: save config
+
+- name: Bring Up Interfaces
+  ios_interface:
+    name: "{{ item.name }}"
+    state: "up"
+    enabled: true
+  with_items:
+    - "{{ main_interfaces }}"
+  notify: save config
