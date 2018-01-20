@@ -1,0 +1,9 @@
+  mgmt_interface:
+    name: mgmt
+    ip_address: 10.100.100.30/24
+
+  vlans:
+    - name: External
+      interface: 1.2
+      self_ip_name: Front_End
+      self_ip: 192.168.100.30/24

@@ -1,0 +1,13 @@
+  mgmt_interface:
+    name: ge-0/0/2
+    ip_address: 10.100.100.20/24
+
+  main_interfaces:
+    - name: ge-0/0/0
+      description: Link to CiscoR0 - Gi1/0
+      ip_address: 192.168.100.20/24
+      metric: 1
+    - name: ge-0/0/1
+      description: Link to PC Net
+      ip_address: 192.168.202.1/24
+      metric: 1

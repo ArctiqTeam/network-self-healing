@@ -1,0 +1,96 @@
+!
+hostname CiscoR0
+!
+boot-start-marker
+boot-end-marker
+!
+!
+enable secret 5 <PASSWORD>
+!
+no aaa new-model
+no ip icmp rate-limit unreachable
+ip cef
+!
+!
+!
+!
+!
+!
+no ip domain lookup
+ip domain name ansible-for-networks.com
+no ipv6 cef
+!
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+username root privilege 15 secret 5 <PASSWORD>
+!
+!
+ip tcp synwait-time 5
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 10.100.100.10 255.255.255.0
+ duplex full
+!
+interface GigabitEthernet1/0
+ no description
+ no ip address
+ no ip ospf cost
+ shutdown
+!
+interface GigabitEthernet2/0
+ no description
+ no ip address
+ no ip ospf cost
+ shutdown
+!
+no router ospf 10
+!
+ip forward-protocol nd
+!
+!
+no ip http server
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.100.100.1
+!
+!
+!
+!
+control-plane
+!
+!
+ip ssh version 2
+line con 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+ login local
+ stopbits 1
+line aux 0
+ exec-timeout 0 0
+ privilege level 15
+ logging synchronous
+ stopbits 1
+ line vty 0 4
+  login local
+  transport input ssh
+ line vty 5 15
+  login local
+  transport input ssh
+!
+!
+end

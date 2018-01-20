@@ -1,0 +1,20 @@
+---
+# Used for post message action
+post_message_action:
+  webhook_url: ""
+  channel: "#netops"
+  username: "st2"
+  icon_emoji: ":bender:"
+
+# Used for Slack sensor
+sensor:
+  token: ""
+  strip_formatting: false
+
+action_token: ""
+admin:
+  admin_token: ""
+  organization: ""
+  set_active: true
+  attempts: 1
+  auto_join_channels:

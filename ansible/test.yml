@@ -1,0 +1,22 @@
+- name: Test playbook
+  hosts: all
+  connection: local
+  gather_facts: no
+  tasks:
+    - name: Show Version - Cisco
+      ios_command:
+        commands: show version
+        provider: "{{ dev_provider }}"
+      when: inventory_hostname in groups['cisco_ios']
+    - name: Show Version - Junos
+      junos_command:
+        commands: show version
+        provider: "{{ dev_provider }}"
+      when: inventory_hostname in groups['junos']
+    - name: Show Version - F5
+      bigip_command:
+        commands: show sys version
+        validate_certs: False
+        server: "{{ ansible_host }}"
+      when: inventory_hostname in groups['f5']
+      changed_when: bogus | default(false)

@@ -1,0 +1,117 @@
+* {
+    box-sizing: border-box;
+}
+body, html {
+    height: 100%;
+}
+body {
+    background-image: url("../car_red.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #183669;
+}
+h1 {
+    color: rgb(255,255,255);
+    font-family: "Montserrat";
+    font-size: 5em;
+    line-height: 1em;
+    font-weight: normal;
+    letter-spacing: 0em;
+    margin-bottom: 0.5em
+}
+h2 {
+    color: rgba(255,255,255,0.8);
+    font-family: "Montserrat";
+    font-size: 2em;
+    line-height: 1.4em;
+    font-weight: normal;
+    letter-spacing: 0em;
+    margin-bottom: 0.5em
+}
+.heading-text {
+    position: absolute;
+    top: 35%;
+    left: 20%;
+}
+.coming-soon {
+    position: absolute;
+    bottom: 15%;
+    left: 50%;
+    margin-left: -180px;
+    font-size: 0.75em;
+}
+.arctiqlogo img {
+    max-width: 100%;
+    height: auto;
+    position: absolute;
+    left: 15%;
+    top: 12%;
+}
+.button {
+    background-color: white;
+    border: none;
+    border-radius: 4px;
+    color: black;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    font-family: "Montserrat";
+    margin: 4px 20px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+/*.fa-github {
+  color: black;
+}*/
+/*.fa-github:hover {
+    background-color: rgb(24,54,105);
+    color: white;    
+}*/
+.button:hover {
+    background-color: rgb(24,54,105);
+    color: white;
+}
+.cright {
+    position: absolute;
+    left: 50%;
+    margin-left: -100px;
+    bottom: 0;
+    color: rgba(255,255,255,0.8);
+    font-family: "Montserrat";
+    font-size: 1em;
+    line-height: 1.4em;
+    font-weight: normal;
+    letter-spacing: 0em;
+    margin-bottom: 0.5em
+}
+.cright a {
+    color: rgba(255,255,255,0.8);
+}
+.social-icons {
+    position: absolute;
+    right: 15%;
+    bottom: 5%;
+    border: 2px solid rgba(255,255,255,0.8);
+    border-radius: 4px;
+    padding: 16px 20px;
+    text-align: center;
+    display: inline-block;
+    margin: 4px 20px;
+    color: rgba(255,255,255,0.8);
+    font-family: "Montserrat";
+    font-size: 1em;
+    line-height: 1.4em;
+    font-weight: normal;
+    letter-spacing: 0em;
+    margin-bottom: 0.5em
+}
+.social-icons a {
+    padding: 16px 16px 20px 20px;
+    cursor: pointer;
+}
+.fa {
+    color: rgba(255,255,255,1);   
+}

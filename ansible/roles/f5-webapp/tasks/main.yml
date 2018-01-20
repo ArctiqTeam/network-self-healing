@@ -1,0 +1,57 @@
+---
+# tasks file for f5-webapp
+      - name: Create Pool
+        bigip_pool:
+            lb_method: "round-robin"
+            name: "webservers"
+            server: "{{ ansible_host }}"
+            slow_ramp_time: "15"
+            monitor_type: "and_list"
+            monitors:
+              - /Common/http
+            validate_certs: no
+
+      - name: Create Nodes
+        bigip_node:
+            host: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}"
+            name: "node-{{ hostvars[item]['ansible_hostname'] }}"
+            server: "{{ ansible_host }}"
+            validate_certs: no
+            state: present
+            monitors:
+              - /Common/icmp
+        with_items: "{{ groups.webservers }}"
+
+      - name: Add nodes to pool
+        bigip_pool_member:
+            description: "webserver-{{ hostvars[item]['ansible_default_ipv4']['address'] }}"
+            host: "{{ hostvars[item]['ansible_default_ipv4']['address'] }}"
+            name: "node-{{ hostvars[item]['ansible_hostname'] }}"
+            server: "{{ ansible_host }}"
+            pool: "webservers"
+            port: "80"
+            validate_certs: no
+        with_items: "{{ groups.webservers }}"
+
+      - name: Create a VIP
+        bigip_virtual_server:
+            description: "webservers"
+            destination: "{{ vip }}"
+            server: "{{ ansible_host }}"
+            name: "vip-1"
+            pool: "webservers"
+            port: "80"
+            snat: "Automap"
+            all_profiles:
+                - "http"
+            validate_certs: no
+            
+      - name: Ensure the Nagios config is in place
+        template:
+          src: web_servers.cfg.j2
+          dest: "/opt/nagios/etc/objects/web_servers.cfg"
+          mode: 0644
+        delegate_to: monitor1
+        run_once: yes
+        notify: restart nagios
+

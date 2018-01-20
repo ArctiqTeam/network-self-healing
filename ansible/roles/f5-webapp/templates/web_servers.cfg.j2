@@ -1,0 +1,44 @@
+# web servers
+define hostgroup {
+    hostgroup_name web_servers
+    alias Web Servers
+}
+
+define host {
+    use                     linux-server
+    host_name               {{ inventory_hostname }}
+    alias                   {{ inventory_hostname }}
+    address                 {{ vip }}
+    hostgroups 		    web_servers
+}
+
+# service checks to be applied to the web server
+
+define service{
+    use                             local-service,graphed-service
+    host_name                       {{ inventory_hostname }}
+    service_description             HTTP
+    check_command                   check_http!-p 80 -s {{ web_content_search_string }}
+    check_interval                  2
+    notifications_enabled           0
+    event_handler                   {{ event_handler_service }}
+}
+
+define host {
+    use                     linux-server
+    host_name               webserver1
+    alias                   webserver1
+    address                 192.168.201.10
+    hostgroups 		    web_servers
+}
+
+# service checks to be applied to the web server
+
+define service {
+    use                     generic-service
+    host_name               webserver1
+    service_description     PING webserver1
+    check_command           check_ping!200.0,20%!600.0,60%
+    check_interval          1
+    notifications_enabled   0
+}

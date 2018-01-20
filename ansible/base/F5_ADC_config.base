@@ -1,0 +1,90 @@
+#TMSH-VERSION: 13.0.0
+
+cli preference {
+    alias-path { /Common }
+    pager disabled
+    prompt { host user status current-folder config-sync-status }
+    suppress-warnings { }
+    user ansible
+}
+cm device /Common/F5_ADC.ansible-for-networks.com {
+    active-modules { "APM, Base, VE GBB (500 CCU, 2500 Access Sessions)|AEKDQCB-WBSMMUL|Anti-Virus Checks|Base Endpoint Security Checks|Firewall Checks|Network Access|Secure Virtual Keyboard|APM, Web Application|Machine Certificate Checks|Protected Workspace|Remote Desktop|App Tunnel" "Best Bundle, VE-10G|MMRTXXD-SYAZEPX|Rate Shaping|ASM, VE|DNS-GTM, Base, 10Gbps|SSL, VE|Max Compression, VE|AFM, VE|DNSSEC|GTM Licensed Objects, Unlimited|DNS Licensed Objects, Unlimited|DNS Rate Fallback, 250K|GTM Rate Fallback, 250K|GTM Rate, 250K|DNS Rate Limit, 250K QPS|CGN, BIG-IP VE, AFM ONLY|Routing Bundle, VE|PSM, VE" }
+    base-mac 00:05:34:dd:e5:00
+    build 2.0.1671
+    cert /Common/dtdi.crt
+    chassis-id 1b051c52-0141-f744-9f0e4311dde5
+    edition "Hotfix HF2"
+    hostname F5_ADC.ansible-for-networks.com
+    key /Common/dtdi.key
+    management-ip 10.100.100.30
+    marketing-name "BIG-IP Virtual Edition"
+    optional-modules { "Advanced Protocols, VE" "APC-VE, Introductory" "APC-VE, Introductory to Medium Upgrade" "APC-VE, Medium" "App Mode (TMSH Only, No Root/Bash)" "BIG-IP VE, Multicast Routing" "CGN, ADD-VE, 10G" "Concurrent Users and Access Sessions, VE" "DataSafe, VE-10G" "DNS and GTM (250 QPS), VE" "External Interface and Network HSM, VE" "FIPS 140-2 Level 1, BIG-IP VE-1G to 10G" "IP Intelligence, 1Yr, VE-10G" "IP Intelligence, 3Yr, VE-10G" "PEM, ADD-VE, 5G" "Secure Web Gateway, 1Yr, VE" "Secure Web Gateway, 3Yr, VE" "SSL, Forward Proxy, VE" "URL Filtering, 1Yr, VE" "URL Filtering, 3Yr, VE" }
+    platform-id Z100
+    product BIG-IP
+    self-device true
+    time-zone America/Toronto
+    version 13.0.0
+}
+cm trust-domain /Common/Root {
+    ca-cert /Common/dtca.crt
+    ca-cert-bundle /Common/dtca-bundle.crt
+    ca-devices { /Common/F5_ADC.ansible-for-networks.com }
+    ca-key /Common/dtca.key
+    guid f30f8d7a-faa0-4527-a281000534dde500
+    status standalone
+    trust-group /Common/device_trust_group
+}
+sys feature-module cgnat {
+    disabled
+}
+sys folder / {
+    device-group none
+    hidden false
+    inherited-devicegroup false
+    inherited-traffic-group false
+    traffic-group /Common/traffic-group-1
+}
+sys folder /Common {
+    device-group none
+    hidden false
+    inherited-devicegroup true
+    inherited-traffic-group true
+    traffic-group /Common/traffic-group-1
+}
+sys folder /Common/Drafts {
+    device-group none
+    hidden false
+    inherited-devicegroup true
+    inherited-traffic-group true
+    traffic-group /Common/traffic-group-1
+}
+sys global-settings {
+    gui-setup disabled
+    hostname F5_ADC.ansible-for-networks.com
+    mgmt-dhcp disabled
+}
+sys management-dhcp /Common/sys-mgmt-dhcp-config {
+    request-options { subnet-mask broadcast-address routers domain-name domain-name-servers host-name ntp-servers interface-mtu }
+}
+sys management-ip 10.100.100.30/24 { }
+sys management-ovsdb {
+    ca-cert-file none
+    cert-file none
+    cert-key-file none
+    disabled
+    flooding-type replicator
+    log-level info
+    logical-routing-type none
+    tunnel-maintenance-mode active
+}
+sys management-route /Common/default {
+    gateway 10.100.100.1
+    network default
+}
+sys ntp {
+    servers { pool.ntp.org }
+    timezone America/Toronto
+}
+sys provision ltm {
+    level nominal
+}

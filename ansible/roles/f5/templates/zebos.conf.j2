@@ -1,0 +1,19 @@
+!
+no service password-encryption
+!
+log file /var/log/zebos.log
+!
+interface External
+!
+router ospf
+ ospf router-id {{ mgmt_interface.ip_address | ipaddr('address') }}
+{% for vlan in vlans %}
+ network {{ vlan.self_ip | ipaddr('network') }}/{{ vlan.self_ip | ipaddr('prefix') }} area 0.0.0.0
+{% endfor %}
+!
+line con 0
+ login
+line vty 0 39
+ login
+!
+end
